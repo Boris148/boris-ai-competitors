@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Boris AI · One hire, not four tools</title>
+<style>
+  :root {
+    --bg: #05070b; --card: #11151c; --card2: #161b24; --line: rgba(255,255,255,0.09);
+    --blue: #38a8de; --blue-deep: #0a7dc2; --blue-soft: rgba(56,168,222,0.12); --hi: #bfe8ff;
+    --text: rgba(255,255,255,0.93); --muted: rgba(235,235,245,0.62); --green: #30d158; --amber: #ffb340;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.4;
+    background-image: radial-gradient(circle at 100% 0%, rgba(56,168,222,0.18), transparent 40%), radial-gradient(circle at 0% 100%, rgba(10,125,194,0.10), transparent 45%);
+    background-attachment: fixed; min-height: 100vh;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: max(22px, env(safe-area-inset-top)) 16px 40px; }
+  header { display: flex; align-items: center; gap: 16px; }
+  .face { position: relative; width: 62px; height: 62px; flex: none; margin: 8px; }
+  .face::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(56,168,222,0.35); animation: pulse 3.2s ease-in-out infinite; }
+  .face .ring { width: 100%; height: 100%; border-radius: 50%; padding: 3px; background: conic-gradient(from 200deg, var(--blue-deep), var(--blue), var(--hi), var(--blue-deep)); box-shadow: 0 0 26px rgba(56,168,222,0.45); animation: spin 9s linear infinite; }
+  .face img { width: 100%; height: 100%; border-radius: 50%; display: block; object-fit: cover; border: 2px solid var(--bg); animation: spin 9s linear infinite reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 50% { transform: scale(1.08); opacity: .5; } }
+  .eyebrow { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--blue); font-weight: 700; }
+  h1 { font-size: clamp(26px, 6.5vw, 40px); font-weight: 800; letter-spacing: -.02em; color: #fff; line-height: 1.05; margin-top: 3px; }
+  .sub { color: var(--muted); font-size: 15px; margin-top: 7px; }
+
+  section { margin-top: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  h2 { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); font-weight: 700; }
+  .t { font-size: 19px; font-weight: 700; color: #fff; margin-top: 6px; line-height: 1.2; }
+  p.lead { font-size: 14px; color: var(--muted); margin-top: 5px; }
+
+  /* stack vs boris */
+  .vs { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+  @media (min-width: 760px) { .vs { grid-template-columns: 1.25fr 1fr; } }
+  .stack, .one { border-radius: 14px; padding: 13px; }
+  .stack { background: rgba(255,255,255,.03); border: 1px dashed rgba(255,255,255,.18); }
+  .one { border: 1.5px solid var(--blue); background: linear-gradient(180deg, rgba(56,168,222,.14), var(--card2) 70%); box-shadow: 0 0 34px rgba(56,168,222,.12); }
+  .lbl { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+  .one .lbl { color: var(--hi); }
+  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 9px; }
+  .tool { font-size: 13px; padding: 8px 9px; border-radius: 10px; background: var(--card2); border: 1px solid var(--line); }
+  .tool b { display: block; color: #fff; font-size: 13.5px; }
+  .tool span { color: var(--muted); font-size: 12px; }
+  .seams { margin-top: 9px; font-size: 13px; color: var(--amber); }
+  .desks { display: grid; gap: 6px; margin-top: 9px; }
+  .desk { display: flex; gap: 9px; align-items: center; font-size: 13.5px; padding: 7px 9px; border-radius: 10px; background: rgba(0,0,0,.25); }
+  .desk i { font-style: normal; font-size: 17px; flex: none; }
+  .desk b { color: #fff; }
+  .mem { margin-top: 9px; font-size: 13px; color: var(--hi); }
+
+  /* matrix */
+  .scroll { overflow-x: auto; margin-top: 12px; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 4px; border-bottom: 1px solid var(--line); text-align: center; }
+  th { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; vertical-align: bottom; line-height: 1.2; }
+  th .ic { display: block; font-size: 17px; margin-bottom: 3px; letter-spacing: 0; }
+  td.v, th.v { text-align: left; padding-left: 8px; }
+  td.v { font-weight: 600; color: #fff; font-size: 13.5px; white-space: nowrap; }
+  td.v small { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; white-space: normal; }
+  tr.boris td { background: rgba(56,168,222,.12); border-top: 1.5px solid var(--blue); border-bottom: 1.5px solid var(--blue); }
+  tr.boris td.v { color: var(--hi); }
+  .y, .p, .n { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font-size: 13px; font-weight: 800; }
+  .y { background: rgba(48,209,88,.18); color: var(--green); }
+  .p { background: rgba(255,179,64,.14); color: var(--amber); }
+  .n { color: rgba(255,255,255,.25); }
+  .count { font-weight: 800; color: #fff; }
+  tr.boris .count { color: var(--green); }
+  @media (max-width: 520px) {
+    section { padding: 14px 12px; }
+    th, td { padding: 7px 1px; }
+    th { font-size: 11px; letter-spacing: 0; text-transform: none; }
+    .jobs, td.count { display: none; }
+    th.v { font-size: 11px; }
+    td.v, th.v { padding-left: 6px; }
+    td.v { white-space: normal; font-size: 13px; }
+    .y, .p, .n { width: 22px; height: 22px; font-size: 12px; }
+    th .ic { font-size: 18px; }
+  }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 12.5px; color: var(--muted); align-items: center; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend .y, .legend .p, .legend .n { width: 20px; height: 20px; font-size: 11px; }
+
+  /* objections */
+  .objs { display: grid; grid-template-columns: 1fr; gap: 9px; margin-top: 12px; }
+  @media (min-width: 760px) { .objs { grid-template-columns: 1fr 1fr; } }
+  .obj { border-radius: 14px; padding: 12px 13px; background: var(--card2); border: 1px solid var(--line); }
+  .obj .q { font-weight: 700; color: #fff; font-size: 14.5px; }
+  .obj .a { font-size: 13.5px; color: var(--muted); margin-top: 5px; }
+  .obj .a b { color: var(--text); font-weight: 600; }
+
+  /* rules + plans */
+  .rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 6px; margin-top: 12px; }
+  .rules div { font-size: 13px; padding: 8px 10px; border-radius: 10px; background: rgba(48,209,88,.06); border: 1px solid rgba(48,209,88,.22); }
+  .plans { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+  @media (min-width: 760px) { .plans { grid-template-columns: repeat(3, 1fr); } }
+  .plan { border-radius: 14px; padding: 12px; background: var(--card2); border: 1px solid var(--line); }
+  .plan b { color: #fff; font-size: 15px; display: block; }
+  .plan span { font-size: 13px; color: var(--muted); }
+  .plan.top { border-color: var(--blue); }
+
+  footer { margin-top: 22px; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+  footer a { color: var(--blue); text-decoration: none; word-break: break-word; }
+  footer details { margin-top: 8px; }
+  footer summary { cursor: pointer; color: var(--text); font-size: 12.5px; }
+  footer ol { margin: 8px 0 0 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="face"><div class="ring"><img src="img/boris.webp" alt="Boris" /></div></div>
+    <div>
+      <div class="eyebrow">Boris AI · for personal injury firms</div>
+      <h1>One hire, not four tools</h1>
+      <div class="sub">Most firms piece together a phone service, an intake CRM, a demand tool and a client-update app. Boris is one AI employee who does all of it, with one memory.</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>The usual stack vs. Boris</h2>
+    <div class="t">Every hand-off between tools is where a case goes cold</div>
+    <div class="vs">
+      <div class="stack">
+        <div class="lbl">What firms run today · 4–5 vendors</div>
+        <div class="tools">
+          <div class="tool"><b>📞 Answering service</b><span>takes a message</span></div>
+          <div class="tool"><b>📝 Intake CRM</b><span>scores and e-signs</span></div>
+          <div class="tool"><b>📁 Client-update app</b><span>"where's my case?"</span></div>
+          <div class="tool"><b>⚖️ Demand-letter AI</b><span>drafts from records</span></div>
+          <div class="tool" style="grid-column:1/-1"><b>📈 Marketing agency</b><span>reports ad spend, rarely cost per signed case</span></div>
+        </div>
+        <div class="seams">⚠︎ Separate logins, separate bills, and none of them remember what the others heard.</div>
+      </div>
+      <div class="one">
+        <div class="lbl">Boris · one brain, five desks</div>
+        <div class="desks">
+          <div class="desk"><i>📞</i><div><b>Receptionist</b> · 24/7 phones, books consults</div></div>
+          <div class="desk"><i>📝</i><div><b>Intake</b> · scores cases, sends retainers, chases unsigned</div></div>
+          <div class="desk"><i>📁</i><div><b>Case Manager</b> · client updates, records tracker</div></div>
+          <div class="desk"><i>⚖️</i><div><b>Paralegal</b> · demand letters, settlement analysis for attorney sign-off</div></div>
+          <div class="desk"><i>📈</i><div><b>Marketing</b> · cost per signed case, reviews, ad alerts</div></div>
+        </div>
+        <div class="mem">🧠 Shared firm memory: Intake already knows what the caller told the Receptionist at 2 AM.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Who covers what</h2>
+    <div class="t">Only Boris covers all five jobs</div>
+    <p class="lead">Based on what each company publishes as of October 2026. "Some" means part of the job, or done by human staff or a partner.</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="v">Product</th>
+            <th><span class="ic">📞</span>Phones</th>
+            <th><span class="ic">📝</span>Intake</th>
+            <th><span class="ic">📁</span>Case mgr</th>
+            <th><span class="ic">⚖️</span>Paralegal</th>
+            <th><span class="ic">📈</span>Marketing</th>
+            <th class="jobs">Jobs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="boris"><td class="v">Boris AI<small>one brain, all desks</small></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td class="count">5</td></tr>
+          <tr><td class="v">Eve (EveOS)<small>plaintiff AI platform</small></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td class="count">4½</td></tr>
+          <tr><td class="v">Supio<small>case AI + intake</small></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td class="count">3</td></tr>
+          <tr><td class="v">Finch<small>AI + human paralegals</small></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td class="count">3½</td></tr>
+          <tr><td class="v">EvenUp<small>demands + pre-lit</small></td><td><span class="n">—</span></td><td><span class="p">◐</span></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td class="count">2</td></tr>
+          <tr><td class="v">Clio Grow AI<small>intake inside Clio</small></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td class="count">3</td></tr>
+          <tr><td class="v">Filevine LOIS<small>case software AI</small></td><td><span class="n">—</span></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td class="count">2½</td></tr>
+          <tr><td class="v">Hona<small>client updates</small></td><td><span class="p">◐</span></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">2</td></tr>
+          <tr><td class="v">Lawmatics<small>intake CRM</small></td><td><span class="n">—</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="p">◐</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">CaseFlood.ai<small>AI for intake reps</small></td><td><span class="p">◐</span></td><td><span class="y">✓</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">Lawbot.ai<small>AI receptionist</small></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">NextPhone<small>AI receptionist</small></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">Smith.ai<small>humans + AI</small></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">Ruby<small>human receptionists</small></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+          <tr><td class="v">LEX Reception<small>human receptionists</small></td><td><span class="y">✓</span></td><td><span class="p">◐</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td><span class="n">—</span></td><td class="count">1½</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend"><span><span class="y">✓</span>Does it</span><span><span class="p">◐</span>Some</span><span><span class="n">—</span>Not offered</span></div>
+  </section>
+
+  <section>
+    <h2>"We already use…"</h2>
+    <div class="t">Keep what works. Boris fills the gaps between your tools.</div>
+    <div class="objs">
+      <div class="obj"><div class="q">"We already use Eve."</div><div class="a">Eve is strong on case work. Ask who runs your <b>marketing numbers</b>: cost per signed case, reviews, ad alerts. Boris does that from the same brain that answered the call. And with Boris, <b>nothing reaches a client until a person taps Approve.</b></div></div>
+      <div class="obj"><div class="q">"We use Smith.ai, Ruby or LEX for phones."</div><div class="a">An answering service takes a message, and then your team still works the lead. Boris <b>answers, scores the case, writes it into your case software and has the retainer ready for your OK</b>, in the same minute. Keep your service for overflow, and start Boris on nights and weekends.</div></div>
+      <div class="obj"><div class="q">"We use EvenUp or Supio for demands."</div><div class="a">Keep it. Boris is the rest of the firm: <b>phones, intake, unsigned-retainer chases, client updates and marketing</b>. His Paralegal desk is there when you want one brain from first call to settlement.</div></div>
+      <div class="obj"><div class="q">"We use Clio Grow or Lawmatics for intake."</div><div class="a">That's intake inside one CRM. Boris covers <b>the phone call before it and the client updates and ad numbers after it</b>. He writes into the software you already run. No fee per converted lead, and never a cut of a case.</div></div>
+      <div class="obj"><div class="q">"We use Hona for client updates."</div><div class="a">Boris does "where's my case?" too, and he <b>remembers what the client said on their first call</b>, because it's the same brain that took it. No hand-offs, and clients don't get asked the same questions twice.</div></div>
+      <div class="obj"><div class="q">"Is our data safe?"</div><div class="a">Each firm gets <b>its own isolated server</b>. Your data is never used for training. <b>You can see everything Boris did</b> in an audit log, and you choose what he can read, draft or act on for every connection.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How Boris works</h2>
+    <div class="rules">
+      <div>✋ Nothing goes out without Approve</div>
+      <div>🧾 Audit log your firm can see</div>
+      <div>🔒 Own isolated server per firm</div>
+      <div>🚫 No training on firm data</div>
+      <div>🎚 Read · Draft · Act per connection</div>
+      <div>🗂 Works with your case software</div>
+    </div>
+    <div class="plans">
+      <div class="plan"><b>Boris Answers</b><span>Receptionist: 24/7 phones, consults booked</span></div>
+      <div class="plan"><b>Boris Intake</b><span>Receptionist + Intake: scores, retainers, chases</span></div>
+      <div class="plan top"><b>Boris Full Team</b><span>All five desks, plus add-on connections</span></div>
+    </div>
+  </section>
+
+  <footer>
+    Comparison based on each company's public website and press coverage as of October 2026. Products change often; check with each vendor for current features. All product names are trademarks of their owners. Boris AI isn't affiliated with any company listed.
+    <details>
+      <summary>Sources</summary>
+      <ol>
+        <li><a href="https://www.eve.legal/blogs/eve-is-now-eveos">Eve: Eve is now EveOS</a> · <a href="https://www.eve.legal/intake">Eve Intake</a></li>
+        <li><a href="https://www.lawnext.com/2026/06/eve-builds-on-ai-workforce-launch-with-eveos-an-ai-native-operational-platform-for-plaintiff-firms.html">LawNext: EveOS launch</a></li>
+        <li><a href="https://supio.com">Supio</a> · <a href="https://www.businesswire.com/news/home/20250918835717/en/Supio-Unveils-Major-AI-Product-Expansions-at-Supio-Summit-2025">Supio Voice</a></li>
+        <li><a href="https://www.builtinnyc.com/articles/finch-launches-platform-for-personal-injury-firms-20250416">Finch launch</a></li>
+        <li><a href="https://www.evenuplaw.com">EvenUp</a></li>
+        <li><a href="https://lawnext.com/2026/08/clio-grows-clio-grow-with-launch-of-grow-ai-providing-24-7-intake-agents.html">LawNext: Clio Grow AI</a></li>
+        <li><a href="https://filevine.com/news/filevine-launches-lois-console-ai-that-runs-the-firm/">Filevine LOIS Console</a></li>
+        <li><a href="https://www.hona.com/">Hona</a> · <a href="https://www.hona.com/post/meet-lia-ai-case-agent">Meet Lia</a></li>
+        <li><a href="https://www.lawmatics.com">Lawmatics</a></li>
+        <li><a href="https://www.caseflood.ai">CaseFlood.ai</a></li>
+        <li><a href="https://www.softwareadvice.com/product/551838-Lawbot-ai/">Lawbot.ai (Software Advice)</a></li>
+        <li><a href="https://www.getnextphone.com/">NextPhone</a></li>
+        <li><a href="https://smith.ai/legal">Smith.ai legal</a></li>
+        <li><a href="https://www.stork.ai/blog/ai-receptionist-for-law-firms-2026">Ruby (Stork 2026 guide)</a></li>
+        <li><a href="https://www.lexreception.com">LEX Reception</a></li>
+      </ol>
+    </details>
+  </footer>
+</div>
+</body>
+</html>
